@@ -1,0 +1,7 @@
+{
+  "autoLogout": 600,
+  "apiAuthentification": "",
+  "apiDomain": "https://localhost:44378/",
+  "httpTimeout": 120,
+  "cacheTime": 3600,
+}

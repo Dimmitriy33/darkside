@@ -1,12 +1,16 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import "./styles/main.scss";
-// watch: native intellisense and file-peek for aliases from jsconfig.json and with none-js files doesn't work: https://github.com/microsoft/TypeScript/issues/29334
-import imgSmall from "images/testSmall.png"; // start-path is 'images' because we have an alias 'images' in webpack.common.js
-import imgCamera from "images/camera.svg";
 import { Component, StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { WUPFormElement, WUPTextControl } from "web-ui-pack";
-import style from "./styles/main.module.css";
-import someTypeScript from "./someTypeScript";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import smoothscroll from "smoothscroll-polyfill";
+import { Provider } from "react-redux";
+import { IntlProvider } from "react-intl";
+import Store from "./redux";
+import localeEn from "./locales/en.json";
+import localeRu from "./locales/ru.json";
+import MainRouter from "./mainRouter";
 
 !(WUPFormElement && WUPTextControl) && console.warn("err");
 
@@ -15,8 +19,13 @@ interface AppProps {
 }
 
 interface AppState {
-  title: string;
+  isLogged: boolean;
+  lang: string;
+  locales: unknown;
 }
+
+// kick off the polyfill!
+smoothscroll.polyfill(); // it fixes unsupporting scrollToOptions for Edge, IE, Safari: https://github.com/iamdustan/smoothscroll
 
 class AppContainer extends Component<AppProps, AppState> {
   // ["constructor"]: typeof AppContainer;
@@ -24,7 +33,9 @@ class AppContainer extends Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
     this.state = {
-      title: someTypeScript("Test-block for css-modules"),
+      isLogged: AppContainer.isLogged,
+      lang: AppContainer.lang,
+      locales: AppContainer.locales,
     };
     // test class-dead-code
     const goExlcude = true;
@@ -33,19 +44,60 @@ class AppContainer extends Component<AppProps, AppState> {
     }
   }
 
+  componentDidMount() {
+    Store.subscribe(() => {
+      const { lang } = AppContainer;
+      if (this.state.lang !== lang) {
+        this.setState({ lang });
+      }
+    });
+  }
+
+  static get isLogged() {
+    return Store.getState().isLoggedIn;
+  }
+
+  static get locales() {
+    return {
+      en: localeEn,
+      ru: localeRu,
+    };
+  }
+
+  static get lang() {
+    return Store.getState().lang;
+  }
+
   render() {
     return (
       <StrictMode>
-        <div className="test-block">
+        {/** @ts-ignore */}
+        <IntlProvider locale={this.state.lang} defaultLocale="en" messages={this.state.locales[this.state.lang]}>
+          <Provider store={Store}>
+            <MainRouter isLogged={this.state.isLogged} />
+            {/* <FormattedMessage id="testText" />
+            <button
+              type="button"
+              onClick={() => {
+                Store.dispatch({
+                  type: Types.SWITCHLANG,
+                  data: {
+                    lang: "ru",
+                  },
+                });
+              }}
+            >
+              s
+            </button> */}
+          </Provider>
+        </IntlProvider>
+        {/* <div className="test-block">
           <h2 className={style.mainTitle}>{this.state.title}</h2>
         </div>
         <div className={["test-block", style.background].join(" ")}>
           <h2>Test-block for assets-module (previous url-loader)</h2>
           <img src={imgSmall} alt="smallImage" />
         </div>
-        {/*  or it can be
-          <img src='/src/images/testSmall.png' alt="smallImage"></img>
-        */}
         <div className={["test-block", style.svgBackground].join(" ")}>
           <h2>Test-block for assets-module (svg-url-loader)</h2>
           <img src={imgCamera} alt="small_SVG_Image" />
@@ -54,7 +106,7 @@ class AppContainer extends Component<AppProps, AppState> {
         <wup-form class={style.form}>
           <wup-text name="TextControl" />
           <button type="submit">Submit</button>
-        </wup-form>
+        </wup-form> */}
       </StrictMode>
     );
   }

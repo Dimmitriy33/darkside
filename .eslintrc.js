@@ -60,6 +60,8 @@ module.exports = {
     "no-alert": process.env.NODE_ENV === "production" ? "error" : "off",
     "no-plusplus": "off",
     "class-methods-use-this": "off",
+    "import/no-extraneous-dependencies": "off",
+    "no-param-reassign": 0,
     "max-len": [
       "warn",
       {

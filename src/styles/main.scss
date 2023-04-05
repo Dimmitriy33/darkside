@@ -1,6 +1,7 @@
 @import "normalize.css";
 @import "sanitize.css";
 @import "fontface.css";
+@import "./setupPrivacy.scss"; //this is should be always
 
 body {
   color: $basicColor;

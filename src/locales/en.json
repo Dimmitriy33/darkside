@@ -1,0 +1,13 @@
+{
+  "testText": "testText",
+  "FirstName": "First Name",
+  "LastName": "Last Name",
+  "Username": "User Name",
+  "Email": "Email",
+  "Phone": "Phone",
+  "Password": "Password",
+  "RepeatPassword": "Repeat password",
+  "Enter": "Enter",
+  "Register": "Register",
+  "Login": "Login"
+}

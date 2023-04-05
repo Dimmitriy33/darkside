@@ -1,0 +1,13 @@
+{
+  "testText": "testText",
+  "firstName": "Имя",
+  "lastName": "Фамилия",
+  "username": "Имя пользователя",
+  "Email": "Email",
+  "Phone": "Телефон",
+  "Password": "Пароль",
+  "RepeatPassword": "Повторите пароль",
+  "Enter": "Подтвержить",
+  "Register": "Регистрация",
+  "Login": "Войти"
+}
