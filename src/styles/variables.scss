@@ -1,1 +1,24 @@
-$basicColor: #1c0909;
+$basicColor: #100c12;
+$basicColor2: #ffffff;
+
+//border
+$borderColor: var(--borderColor, #e1e1e1);
+$borderRadius: var(--borderRadius, 14px);
+$borderWidth: 1px;
+
+// header
+$headerHeight: 80px;
+$headerColor: var(--headerColor, white);
+$headerBgColor: var(--headerBgColor, $basicColor);
+$borderAvatarColor: var(--borderAvatarColor, white);
+
+//avatarImagge
+$emptyAvatarImageBgColor: var(--emptyAvatarImageBgColor, #818a95);
+$avatarImageTextColor: var(--avatarImageTextColor, white);
+
+//profile
+$profileBgColor: var(--profileBgColor, white);
+$profileImageBgColor: var(--profileImageBgColor, #3896cb);
+$profileImageBorder: var(--profileImageBorder, 1px solid #e1e1e1);
+$profileEditImgBtnColor: var(--profileEditImgBtnColor, #7d7d7d);
+$profileEditImgBorderColor: var(--profileEditImgBtnBorder, #dadada);

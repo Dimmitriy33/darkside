@@ -1,0 +1,76 @@
+.header {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  color: $headerColor;
+  background-color: $headerBgColor;
+  height: $headerHeight;
+  border-bottom: 1px solid $borderColor;
+
+  > * + * {
+    margin-left: 20px;
+  }
+
+  // > button,
+  > a {
+    height: $headerHeight;
+  }
+
+  a {
+    display: contents;
+
+    img {
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  .username {
+    // new icons are in other ticket
+    cursor: pointer;
+    margin-left: auto;
+  }
+
+  .btnLogin {
+    margin-left: auto;
+    background: transparent;
+    border: none;
+  }
+
+  .editAvatar {
+    display: block;
+    margin: auto;
+    width: 28px;
+    height: 28px;
+    transform: translate(0, -50%);
+    border-radius: 50%;
+    background-color: $profileBgColor;
+    box-shadow: 0 0 0 2px $profileEditImgBorderColor inset, 0 0 2px 0 $profileEditImgBorderColor;
+    color: $avatarImageTextColor;
+  }
+
+  .avatarImageMenu {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+
+    & > ul {
+      min-width: 132px;
+      color: $basicColor;
+      margin-top: 20px !important;
+      font-size: 16px;
+      line-height: 20px;
+      text-align: left;
+      letter-spacing: 0.1px;
+
+      & > li:hover {
+        background-color: $profileEditImgBorderColor;
+      }
+    }
+  }
+}
+
+.profilePic {
+  margin-left: 15px;
+}

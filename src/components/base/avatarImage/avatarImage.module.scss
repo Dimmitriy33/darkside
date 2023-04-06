@@ -1,0 +1,12 @@
+.profilePic {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $emptyAvatarImageBgColor;
+  box-shadow: 0 0 0 1px $borderAvatarColor inset, 0 0 1px 0 $borderAvatarColor;
+  letter-spacing: 0.1px;
+  color: $avatarImageTextColor;
+}

@@ -1,18 +1,23 @@
+/* eslint-disable react/no-arrow-function-lifecycle */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import "./styles/main.scss";
 import { Component, StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import { WUPFormElement, WUPTextControl } from "web-ui-pack";
+import { WUPFormElement, WUPPasswordControl, WUPTextControl } from "web-ui-pack";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import smoothscroll from "smoothscroll-polyfill";
 import { Provider } from "react-redux";
 import { IntlProvider } from "react-intl";
+import { ToastContainer, toast } from "react-toastify";
 import Store from "./redux";
 import localeEn from "./locales/en.json";
 import localeRu from "./locales/ru.json";
 import MainRouter from "./mainRouter";
+import { apiGetCurrentUser } from "./api/apiAccount";
+import "react-toastify/dist/ReactToastify.css";
+import httpService from "./helpers/httpHelper";
 
-!(WUPFormElement && WUPTextControl) && console.warn("err");
+!(WUPFormElement && WUPTextControl && WUPPasswordControl) && console.warn("err");
 
 interface AppProps {
   nothing: boolean;
@@ -44,17 +49,43 @@ class AppContainer extends Component<AppProps, AppState> {
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    window.onerror = (_message, _filename, _lineno, _colno, error) => {
+      toast(error?.message);
+    };
+    window.onunhandledrejection = ({ reason: err }: { reason: Error & { isHandled?: boolean } }) => {
+      if (!err.isHandled) {
+        toast(err.message);
+      }
+    };
+
+    httpService.onError = (errorMsg: string) => {
+      toast(errorMsg);
+    };
+
     Store.subscribe(() => {
       const { lang } = AppContainer;
       if (this.state.lang !== lang) {
         this.setState({ lang });
       }
     });
+
+    Store.subscribe(() => {
+      const { isLogged } = AppContainer;
+      if (this.state.isLogged !== isLogged) {
+        this.setState({ isLogged });
+      }
+    });
+
+    await apiGetCurrentUser();
   }
 
+  componentDidCatch = (error: Error) => {
+    toast(error.message);
+  };
+
   static get isLogged() {
-    return Store.getState().isLoggedIn;
+    return Store.getState().isLogged;
   }
 
   static get locales() {
@@ -74,6 +105,18 @@ class AppContainer extends Component<AppProps, AppState> {
         {/** @ts-ignore */}
         <IntlProvider locale={this.state.lang} defaultLocale="en" messages={this.state.locales[this.state.lang]}>
           <Provider store={Store}>
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
             <MainRouter isLogged={this.state.isLogged} />
             {/* <FormattedMessage id="testText" />
             <button

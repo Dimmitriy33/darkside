@@ -1,0 +1,30 @@
+.carouselItem {
+  position: relative;
+
+  img {
+    width: 100vw;
+  }
+
+  &_text {
+    &__main {
+      position: absolute;
+      top: 30%;
+      left: 10%;
+
+      color: $basicColor2;
+      font-size: 44px;
+      line-height: 46px;
+      background: transparent;
+    }
+
+    &__additional {
+      position: absolute;
+      top: 40%;
+      left: 10%;
+      color: $basicColor2;
+      font-size: 52px;
+      line-height: 70px;
+      max-width: 50vw;
+    }
+  }
+}

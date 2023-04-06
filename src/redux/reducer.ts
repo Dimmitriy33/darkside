@@ -3,7 +3,7 @@ import { Action } from "redux";
 import * as types from "./types";
 
 const initialState: IState = {
-  isLoggedIn: false,
+  isLogged: false,
   currentUser: null,
   lang: "en",
 };
@@ -23,14 +23,29 @@ function Reducer(state = initialState, action: Action<number> = initialAction): 
       const result = { ...state };
       const actionV = { ...action } as IAction;
 
-      if (!actionV.data.isLogged) {
+      if (!actionV.data) {
         result.currentUser = null;
-        result.isLoggedIn = false;
+        result.isLogged = false;
+        localStorage.removeItem("token");
+      } else if (actionV.data.token) {
+        localStorage.setItem("token", actionV.data.token);
       }
+
       Object.assign(result, {
-        isLogged: actionV.data.isLogged,
-        currentUser: actionV.data.currentUser,
+        isLogged: true,
+        currentUser: actionV.data,
       });
+
+      return result;
+    }
+    case types.LOGOUT: {
+      const result = { ...state };
+
+      Object.assign(result, {
+        isLogged: false,
+        currentUser: null,
+      });
+      localStorage.removeItem("token");
 
       return result;
     }
@@ -60,7 +75,7 @@ interface IAction {
 }
 
 export interface IState {
-  isLoggedIn: boolean;
+  isLogged: boolean;
   currentUser: IUser | null;
   lang: string;
 }
