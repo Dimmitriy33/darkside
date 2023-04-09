@@ -28,13 +28,32 @@
   .username {
     // new icons are in other ticket
     cursor: pointer;
-    margin-left: auto;
   }
 
   .btnLogin {
     margin-left: auto;
     background: transparent;
     border: none;
+  }
+
+  .btnLang {
+    margin-left: auto;
+    background: transparent;
+    border: none;
+    border: 2px solid $borderColor;
+    border-radius: 10%;
+    height: 36px;
+    width: 36px;
+    color: $basicColor2;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 20px;
+
+    &:hover {
+      color: $basicColor;
+      background-color: $borderColor;
+    }
   }
 
   .editAvatar {

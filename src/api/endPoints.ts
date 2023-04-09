@@ -7,6 +7,8 @@ const endPoints = {
   balance: "/api/user/balance",
   resetPassword: "/api/user/resetPass",
   getAll: "/api/user/all",
+  // product
+  getCategories: "/api/product/categories",
 };
 
 export default endPoints;

@@ -3,7 +3,7 @@
 import "./styles/main.scss";
 import { Component, StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import { WUPFormElement, WUPPasswordControl, WUPTextControl } from "web-ui-pack";
+import { WUPFormElement, WUPPasswordControl, WUPSelectControl, WUPSpinElement, WUPTextControl } from "web-ui-pack";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import smoothscroll from "smoothscroll-polyfill";
 import { Provider } from "react-redux";
@@ -17,7 +17,7 @@ import { apiGetCurrentUser } from "./api/apiAccount";
 import "react-toastify/dist/ReactToastify.css";
 import httpService from "./helpers/httpHelper";
 
-!(WUPFormElement && WUPTextControl && WUPPasswordControl) && console.warn("err");
+!(WUPFormElement && WUPTextControl && WUPPasswordControl && WUPSpinElement && WUPSelectControl) && console.warn("err");
 
 interface AppProps {
   nothing: boolean;
@@ -118,20 +118,6 @@ class AppContainer extends Component<AppProps, AppState> {
               theme="light"
             />
             <MainRouter isLogged={this.state.isLogged} />
-            {/* <FormattedMessage id="testText" />
-            <button
-              type="button"
-              onClick={() => {
-                Store.dispatch({
-                  type: Types.SWITCHLANG,
-                  data: {
-                    lang: "ru",
-                  },
-                });
-              }}
-            >
-              s
-            </button> */}
           </Provider>
         </IntlProvider>
         {/* <div className="test-block">

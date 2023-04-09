@@ -2,15 +2,17 @@ import { Link, useNavigate } from "react-router-dom";
 import useTypedSelector from "@/redux/typedSelector";
 import { urlHome, urlLogin } from "@/mainRouterPathes";
 import logo from "images/logo-no-background.png";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { apiLogout } from "@/api/apiAccount";
 import { useIntl } from "react-intl";
 import Dropdown from "@/elements/dropdown/dropdown";
 import BaseButton from "@/elements/buttonBase/buttonBase";
+import Store, { Types } from "@/redux";
 import styles from "./header.module.scss";
 import AvatarImage from "../avatarImage/avatarImage";
 
 export default function Header(): JSX.Element {
+  const [langCheck, setLangCheck] = useState(false);
   const user = useTypedSelector((state) => state.currentUser);
   const intl = useIntl();
   const navigate = useNavigate();
@@ -31,6 +33,21 @@ export default function Header(): JSX.Element {
       <Link to={urlHome}>
         <img className={styles.logo} src={logo} alt="Logo" />
       </Link>
+      <button
+        className={styles.btnLang}
+        type="button"
+        onClick={() => {
+          setLangCheck(!langCheck);
+          Store.dispatch({
+            type: Types.SWITCHLANG,
+            data: {
+              lang: langCheck ? "en" : "ru",
+            },
+          });
+        }}
+      >
+        {langCheck ? "en" : "ru"}
+      </button>
       {user ? (
         <>
           <span className={styles.username}>{`${user.firstName} ${user.lastName}`}</span>

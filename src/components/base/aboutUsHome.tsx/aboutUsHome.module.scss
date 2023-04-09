@@ -1,0 +1,35 @@
+.aboutUsHome {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 380px;
+  width: 96vw;
+  margin: auto;
+
+  img {
+    width: 96vw;
+    height: 380px;
+    position: absolute;
+  }
+
+  &__body {
+    padding: 24px;
+    z-index: 1;
+
+    h3,
+    h4,
+    p,
+    button {
+      color: $basicColor2;
+      z-index: 1;
+      max-width: 90vw;
+    }
+
+    h3 {
+      font-size: 36px;
+      line-height: 38px;
+      margin: 10px 0;
+    }
+  }
+}

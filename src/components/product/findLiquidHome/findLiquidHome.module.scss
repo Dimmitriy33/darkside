@@ -1,0 +1,25 @@
+.findLiquid {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 180px;
+
+  img {
+    width: 96vw;
+    height: 180px;
+    position: absolute;
+  }
+
+  h3,
+  button {
+    color: $basicColor2;
+    z-index: 1;
+  }
+
+  h3 {
+    font-size: 36px;
+    line-height: 38px;
+    margin: 10px;
+  }
+}
