@@ -1,0 +1,131 @@
+.productCard {
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+  height: 400px;
+
+  &__top {
+    position: relative;
+    border: 2px solid $borderColor;
+    width: 100%;
+    height: 280px;
+    margin-bottom: 20px;
+    cursor: pointer;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+
+    &:hover {
+      > div {
+        display: flex;
+      }
+    }
+
+    &__btn_icons {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      position: absolute;
+      bottom: 30px;
+      right: 20px;
+      background-color: transparent;
+      animation: move 0.2s linear;
+
+      button {
+        text-align: center;
+        background-color: $basicColor;
+        border: 1px solid $borderColor;
+        border-radius: 4px;
+        color: $basicColor2;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: $productCreatorColor;
+        }
+      }
+    }
+
+    &__salePerc {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 60px;
+      height: 20px;
+      background-color: $productSaleColor;
+      color: $basicColor2;
+    }
+  }
+
+  &__bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    &__creator {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      color: $productByColor;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 16px;
+
+      span {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 16px;
+        color: $productCreatorColor;
+      }
+    }
+
+    &__name {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 18px;
+      color: $basicColor;
+    }
+
+    &__price {
+      &__prev {
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 22px;
+        color: $productSaleColor;
+      }
+
+      &__current {
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 22px;
+        color: $productCreatorColor;
+      }
+
+      &__current_sale {
+        font-size: 16px;
+        line-height: 18px;
+        color: $productByColor;
+        margin-left: 10px;
+        text-decoration: line-through;
+      }
+    }
+  }
+}
+
+@keyframes move {
+  0% {
+    top: 260px;
+  }
+
+  100% {
+    top: 210px;
+  }
+}

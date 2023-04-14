@@ -25,3 +25,12 @@ $profileEditImgBorderColor: var(--profileEditImgBtnBorder, #dadada);
 
 //product
 $categoryItemBgColor: var(--categoryItemBgColor, #f6f6f6);
+$productSaleColor: var(--productSaleColor, #ff0404);
+$productByColor: var(--productByColor, #7d7d7d);
+$productCreatorColor: var(--productCreatorColor, #bd0028);
+
+// modal
+$modalOverlayBackColor: var(--modalOverlayBackColor, black);
+$modalBtnCloseColor: var(--modalBtnCloseColor, #8f8e8e);
+$modalBtnCloseHoverColor: var(--modalBtnCloseHoverColor, black);
+$modalBgColor: var(--modalBgColor, white);

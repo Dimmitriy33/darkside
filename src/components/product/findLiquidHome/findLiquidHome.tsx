@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import BaseButton from "@/elements/buttonBase/buttonBase";
 import imgBg1 from "images/bg-get-taste-jpg.jpg";
+import { urlProducts } from "@/mainRouterPathes";
 import styles from "./findLiquidHome.module.scss";
 
 export default function FindLiquidHome(): JSX.Element {
@@ -13,7 +14,7 @@ export default function FindLiquidHome(): JSX.Element {
       <h3>
         <FormattedMessage id="FindLiquid" />
       </h3>
-      <BaseButton onClick={() => alert("ok")} intlText="ShopNow" type="button" />
+      <BaseButton onClick={() => navigate(urlProducts)} intlText="ShopNow" type="button" />
     </div>
   );
 }
