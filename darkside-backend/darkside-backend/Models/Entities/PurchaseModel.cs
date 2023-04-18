@@ -9,6 +9,7 @@ namespace darkside_backend.Models.Entities
         public Guid UserId { get; set; }
         public DateTime Date { get; set; }
         public UserModel User { get; set; }
+        public float TotalPrice { get; set; }
         public ICollection<PurchaseItemModel> Items { get; set; }
     }
 }

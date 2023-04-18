@@ -4,6 +4,7 @@ using darkside_backend.Models.Entities;
 using darkside_backend.Models.Enums;
 using darkside_backend.Services.Abstractions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace darkside_backend.Controllers
 {
@@ -45,6 +46,21 @@ namespace darkside_backend.Controllers
             return Ok(response);
         }
 
+        [Authorize]
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            var user = (UserModel)HttpContext.Items["User"]!;
+
+            if (user != null)
+            {
+                HttpContext.Items["User"] = null;
+            }
+
+            return Ok();
+        }
+
+        [Authorize]
         [HttpGet("info")]
         public async Task<IActionResult> GetUserInfo()
         {
@@ -92,7 +108,9 @@ namespace darkside_backend.Controllers
 
         [Authorize]
         [HttpGet("all")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([BindRequired, FromQuery] int limit,
+            [BindRequired, FromQuery] int offset,
+            [FromQuery] string? term)
         {
             var user = (UserModel)HttpContext.Items["User"]!;
 
@@ -101,7 +119,7 @@ namespace darkside_backend.Controllers
                 return Forbid("Only for admins!");
             }
 
-            var users = await _userService.GetAll();
+            var users = await _userService.GetAll(limit, offset, term);
             return Ok(users);
         }
     }

@@ -56,7 +56,7 @@ namespace darkside_backend.Repository
             return entitiesList;
         }
 
-        public async Task<int> CountAsync(Expression<Func<T, bool>> expression)
+        public async Task<int> CountAsync(Expression<Func<T, bool>>? expression)
         {
             var count = expression == null
                 ? await _dbSet.CountAsync()

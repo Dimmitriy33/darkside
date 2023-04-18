@@ -60,7 +60,8 @@ namespace darkside_backend.Services
             var pur = await _purRepo.CreateAsync(new PurchaseModel
             {
                 Date = DateTime.Now,
-                UserId = user.Id
+                UserId = user.Id,
+                TotalPrice = totalPrice
             });
 
             foreach (var purchase in purchases)
@@ -87,9 +88,17 @@ namespace darkside_backend.Services
             return await _purRepo.GetUserPurchases(id);
         }
 
-        public async Task<List<PurchaseModel>> GetAllPurchases()
+        public async Task<PaginationResult<PurchaseModel>> GetAllPurchases(int limit, int offest, string? userTerm)
         {
-            return await _purRepo.GetAllPurchases();
+            List<Guid>? userIds = null;
+
+            if (!string.IsNullOrEmpty(userTerm))
+            {
+                var res = await _userRepo.GetUsersByStartUsername(userTerm);
+                userIds = res.Select(v => v.Id).ToList();
+            }
+
+            return await _purRepo.GetAllPurchases(limit, offest, userIds);
         }
     }
 }

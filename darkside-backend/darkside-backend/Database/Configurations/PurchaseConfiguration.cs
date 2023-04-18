@@ -12,6 +12,7 @@ namespace darkside_backend.Database.Configurations
 
             builder.Property(b => b.Date).IsRequired();
             builder.Property(b => b.UserId).IsRequired();
+            builder.Property(b => b.TotalPrice).IsRequired();
 
             builder
                 .HasOne(t => t.User)

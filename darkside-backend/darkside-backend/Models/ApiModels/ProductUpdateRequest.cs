@@ -17,5 +17,6 @@
         public int? capacity { get; set; } // емкость акк
         public int? vp { get; set; } // vp/pg
         public bool IsHidden { get; set; }
+        public ICollection<int> TastesIds { get; set; }
     }
 }

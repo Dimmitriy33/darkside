@@ -1,4 +1,5 @@
 ﻿using darkside_backend.Database;
+using darkside_backend.Models.ApiModels;
 using darkside_backend.Models.Entities;
 using darkside_backend.Repository.Abstractions;
 using Microsoft.EntityFrameworkCore;
@@ -24,17 +25,33 @@ namespace darkside_backend.Repository
             return res;
         }
 
-        public async Task<List<PurchaseModel>> GetAllPurchases()
+        public async Task<PaginationResult<PurchaseModel>> GetAllPurchases(int limit, int offset, List<Guid>? userIds)
         {
-            var res =
-                 await _dbContext.Purchases
-                     .Include(r => r.Items)
-                     .ThenInclude(t => t.Product)
-                     .Include(u => u.User)
-                     .ToListAsync();
+            var req = _dbContext.Purchases
+                .Skip(offset)
+                .Take(limit)
+                .AsNoTracking();
 
 
-            return res;
+            if (userIds != null)
+            {
+                req = req.Where(t => userIds.Contains(t.UserId));
+            }
+
+            var items = await req.Include(r => r.Items)
+                .ThenInclude(t => t.Product)
+                .Include(u => u.User).ToListAsync();
+
+
+            var count = await req
+                .AsNoTracking()
+                .CountAsync();
+
+            return new PaginationResult<PurchaseModel>()
+            {
+                Items = items,
+                TotalCount = count
+            };
         }
     }
 }

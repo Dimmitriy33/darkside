@@ -20,7 +20,7 @@ namespace darkside_backend.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        [HttpGet("/all")]
+        [HttpGet("all")]
         [Authorize]
         public async Task<IActionResult> GetAllTastes()
         {

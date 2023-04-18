@@ -48,19 +48,34 @@ namespace darkside_backend.Services
             }
 
             // tastes
-            var tastesIds = model.TastesId.ToList();
-
-            foreach (var tasteId in tastesIds)
+            if (model.TastesId is { Count: > 0 })
             {
-                await _productTasteRepo.CreateAsync(new ProductTasteModel
+                var tastesIds = model.TastesId.ToList();
+
+                foreach (var tasteId in tastesIds)
                 {
-                    TasteId = tasteId,
-                    ProductId = product.Id
-                });
+                    await _productTasteRepo.CreateAsync(new ProductTasteModel
+                    {
+                        TasteId = tasteId,
+                        ProductId = product.Id
+                    });
+                }
             }
 
             var prodResult = await _productRepo.GetProductByIdAsync(product.Id, true);
             return prodResult;
+        }
+
+        public async Task<ProductModel> GetProductByIdAsync(string id)
+        {
+            return await _productRepo.GetProductByIdAsync(new Guid(id), true);
+        }
+
+        public async Task<List<ProductModel>> GetProductsByIdsAsync(string[] ids)
+        {
+            var idsNew = ids.Select(id => new Guid(id)).ToArray();
+
+            return await _productRepo.GetProductsByIdsAsync(idsNew, true);
         }
 
         public async Task<ProductModel> UpdateProductAsync(ProductUpdateRequest model)
@@ -103,10 +118,15 @@ namespace darkside_backend.Services
         {
             return await _productRepo.GetUniqueCategoriesAsync();
         }
-
-        public async Task<List<ProductModel>> SearchProducts(string term, int limit, int offset)
+        public async Task<ICollection<string>> GetCreators()
         {
-            return await _productRepo.SearchProducts(term, limit, offset);
+            return await _productRepo.GetUniqueCreatorsAsync();
+        }
+
+        public async Task<PaginationResult<ProductModel>> SearchProducts(string term, int limit, int offset, string category = "", string creator = "", int priceMin = 0, int priceMax = int.MaxValue, int vpMin = 0, int vpMax = 1000, bool isHidden = false, bool withEmpty = false)
+        {
+            var prods = await _productRepo.SearchProducts(term, limit, offset, category, creator, priceMin, priceMax, vpMin, vpMax, isHidden, withEmpty);
+            return prods;
         }
 
         public async Task UpdateTastes(UpdateTastesRequest model)
@@ -130,6 +150,7 @@ namespace darkside_backend.Services
                 Description = model.Description,
                 Category = model.Category,
                 Price = model.Price,
+                SalePerc = model.SalePerc,
                 Amount = model.Amount,
                 length = model.length,
                 width = model.width,

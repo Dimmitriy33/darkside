@@ -11,6 +11,7 @@ namespace darkside_backend.Models.ApiModels
         public string Category { get; set; }
         public float Price { get; set; }
         public int Amount { get; set; }
+        public float? SalePerc { get; set; }
         public float? length { get; set; }
         public float? width { get; set; }
         public float? height { get; set; }

@@ -127,10 +127,14 @@ namespace darkside_backend.Services
             return MapUserModelForResp(result, false);
         }
 
-        public async Task<List<UserResponse>> GetAll()
+        public async Task<PaginationResult<UserResponse>> GetAll(int limit, int offset, string? userTerm)
         {
-            var result = await _userRepo.GetUsers();
-            return result.Select(v => MapUserModelForResp(v, true)).ToList();
+            var result = await _userRepo.GetUsers(limit, offset, userTerm);
+            return new PaginationResult<UserResponse>()
+            {
+                Items = result.Items.Select(v => MapUserModelForResp(v, true)).ToList(),
+                TotalCount = result.TotalCount,
+            };
         }
 
         // helper methods

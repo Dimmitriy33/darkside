@@ -1,4 +1,5 @@
 ﻿using darkside_backend.Database;
+using darkside_backend.Models.ApiModels;
 using darkside_backend.Models.Entities;
 using darkside_backend.Repository.Abstractions;
 using Microsoft.EntityFrameworkCore;
@@ -11,13 +12,30 @@ namespace darkside_backend.Repository
         {
         }
 
-        public async Task<List<UserModel>> GetUsers()
+        public async Task<PaginationResult<UserModel>> GetUsers(int limit, int offset, string? userTerm)
         {
-            var result = await _dbContext.Users
+            var req = _dbContext.Users
+                .Skip(offset)
+                .Take(limit)
+                .AsNoTracking();
+
+            if (userTerm != null)
+            {
+                req = req.Where(t => EF.Functions.Like(t.Username, $"{userTerm}%"));
+            }
+
+            var result = await req
                 .Include(v => v.Purchases)
                 .ThenInclude(m => m.Items).ToListAsync();
 
-            return result;
+            var count = await req
+                .CountAsync();
+
+            return new PaginationResult<UserModel>()
+            {
+                Items = result,
+                TotalCount = count
+            };
         }
         public async Task<UserModel> GetUserById(Guid id)
             => (await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id))!;
@@ -27,6 +45,9 @@ namespace darkside_backend.Repository
 
         public async Task<UserModel> GetUserByUsername(string username)
             => (await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == username))!;
+
+        public async Task<List<UserModel>> GetUsersByStartUsername(string term)
+            => await _dbContext.Users.Where(t => EF.Functions.Like(t.Username, $"{term}%")).ToListAsync();
 
         public async Task<bool> IsNewUser(string username, string email, string phone)
         {

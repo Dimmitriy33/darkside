@@ -4,6 +4,7 @@ using darkside_backend.Models.Entities;
 using darkside_backend.Models.Enums;
 using darkside_backend.Services.Abstractions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace darkside_backend.Controllers
 {
@@ -40,7 +41,9 @@ namespace darkside_backend.Controllers
 
         [Authorize]
         [HttpGet("all")]
-        public async Task<IActionResult> GetAllPurchases()
+        public async Task<IActionResult> GetAllPurchases([BindRequired, FromQuery] int limit,
+            [BindRequired, FromQuery] int offset,
+            [FromQuery] string? term)
         {
             var user = (UserModel)HttpContext.Items["User"]!;
 
@@ -49,7 +52,7 @@ namespace darkside_backend.Controllers
                 return Forbid("Only for admins!");
             }
 
-            var response = await _purService.GetAllPurchases();
+            var response = await _purService.GetAllPurchases(limit, offset, term);
 
             return Ok(response);
         }

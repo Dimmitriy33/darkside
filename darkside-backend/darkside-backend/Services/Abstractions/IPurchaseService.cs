@@ -7,6 +7,6 @@ namespace darkside_backend.Services.Abstractions
     {
         Task<PurchaseCreateResponse> CreatePurchaseAsync(List<PurchaseItemCreateRequest> model, string username);
         Task<List<PurchaseModel>> GetUserPurchases(Guid id);
-        Task<List<PurchaseModel>> GetAllPurchases();
+        Task<PaginationResult<PurchaseModel>> GetAllPurchases(int limit, int offest, string? userTerm);
     }
 }
