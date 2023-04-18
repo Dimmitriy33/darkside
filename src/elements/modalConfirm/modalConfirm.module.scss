@@ -1,0 +1,24 @@
+.modalContent {
+  h2,
+  h3 {
+    white-space: pre;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 20px;
+    padding: 0;
+    width: 100%;
+  }
+
+  .btnGroup {
+    display: flex;
+    justify-content: center;
+
+    button {
+      min-width: 80px;
+
+      + button {
+        margin-left: 20px;
+      }
+    }
+  }
+}

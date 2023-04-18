@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import { useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -5,6 +6,7 @@ import { apiGetCategories } from "@/api/apiProduct";
 import imgBg1 from "images/dim1.png";
 import imgBg2 from "images/dim2.png";
 import imgBg3 from "images/dim3.png";
+import { urlProducts } from "@/mainRouterPathes";
 import styles from "./topCategories.module.scss";
 
 export default function TopCategories(): JSX.Element {
@@ -36,7 +38,11 @@ export default function TopCategories(): JSX.Element {
           <div className={styles.categories__item__wrapper}>
             {categories.map((v, idx) => (
               <div className={styles.categories__item}>
-                <div className={styles.categories__item_img}>
+                {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+                <div
+                  className={styles.categories__item_img}
+                  onClick={() => navigate(urlProducts, { state: { initCategory: v } })}
+                >
                   <img src={images[idx % 3]} alt={v} />
                 </div>
                 <p className={styles.categories__item_text}>{v}</p>

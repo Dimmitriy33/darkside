@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import useTypedSelector from "@/redux/typedSelector";
-import { urlHome, urlLogin } from "@/mainRouterPathes";
+import { urlCart, urlHome, urlLogin, urlUser } from "@/mainRouterPathes";
 import logo from "images/logo-no-background.png";
 import { useCallback, useState } from "react";
 import { apiLogout } from "@/api/apiAccount";
@@ -8,12 +8,14 @@ import { useIntl } from "react-intl";
 import Dropdown from "@/elements/dropdown/dropdown";
 import BaseButton from "@/elements/buttonBase/buttonBase";
 import Store, { Types } from "@/redux";
+import { FiBriefcase } from "react-icons/fi";
 import styles from "./header.module.scss";
 import AvatarImage from "../avatarImage/avatarImage";
 
 export default function Header(): JSX.Element {
   const [langCheck, setLangCheck] = useState(false);
   const user = useTypedSelector((state) => state.currentUser);
+  const cartItems = useTypedSelector((v) => v.cart);
   const intl = useIntl();
   const navigate = useNavigate();
 
@@ -22,6 +24,10 @@ export default function Header(): JSX.Element {
   }, []);
 
   const editButtons = [
+    {
+      text: intl.formatMessage({ id: "UserPage" }),
+      onClick: () => navigate(urlUser),
+    },
     {
       text: intl.formatMessage({ id: "Logout" }),
       onClick: () => logout(),
@@ -33,6 +39,7 @@ export default function Header(): JSX.Element {
       <Link to={urlHome}>
         <img className={styles.logo} src={logo} alt="Logo" />
       </Link>
+
       <button
         className={styles.btnLang}
         type="button"
@@ -50,6 +57,16 @@ export default function Header(): JSX.Element {
       </button>
       {user ? (
         <>
+          <button
+            className={styles.btnCart}
+            type="button"
+            onClick={() => {
+              navigate(urlCart);
+            }}
+          >
+            <span>{cartItems.length}</span>
+            <FiBriefcase />
+          </button>
           <span className={styles.username}>{`${user.firstName} ${user.lastName}`}</span>
           <AvatarImage user={user} />
           <Dropdown

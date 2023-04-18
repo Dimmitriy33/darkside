@@ -1,0 +1,30 @@
+.btnContaner {
+  display: flex;
+  align-self: flex-end;
+}
+
+.uplHeader {
+  font-size: 20px;
+}
+
+.uplText {
+  margin: 12px !important;
+}
+
+.buttonBlue {
+  width: 96px;
+  margin: 17px 0 0 10px;
+}
+
+.buttonWhite {
+  width: 96px;
+  margin: 17px 0 0 0px;
+  background: $secondaryBtnColor;
+  color: $secondaryBtnTextColor;
+  border-color: $secondaryBtnColor !important;
+  box-shadow: none;
+
+  &:hover {
+    background: $textBtnColorHover;
+  }
+}

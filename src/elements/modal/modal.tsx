@@ -1,8 +1,8 @@
-/* eslint-disable react/require-default-props */
+/* eslint-disable react/no-unused-class-component-methods */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable max-classes-per-file */
 // eslint-disable-next-line no-use-before-define
-import { Component, KeyboardEvent } from "react";
+import { Component, KeyboardEvent, ReactNode } from "react";
 import withClickOutside from "react-click-outside";
 import ReactDom from "react-dom";
 // todo rewrite ytech-js-extensions to support TS
@@ -40,6 +40,7 @@ function getSiblings(elem: Node) {
 
 export interface ModalBodyInsideProps {
   onClickOutside: () => void;
+  children: React.ReactNode;
 }
 
 class ModalBodyInside extends Component<ModalBodyInsideProps> {
@@ -66,6 +67,7 @@ export interface ModalProps {
   onClosed?: () => void;
   hideBtnClose?: boolean;
   maxWidth?: number;
+  children: ReactNode;
 }
 
 export interface ModalState {

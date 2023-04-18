@@ -1,0 +1,48 @@
+.cart {
+  margin: 24px;
+
+  &__body {
+    display: flex;
+    gap: 40px;
+
+    &__table {
+      width: 50%;
+    }
+
+    &__checkout {
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+      border: 1px solid $borderColor;
+      border-radius: 4px;
+      max-width: 600px;
+
+      &__header {
+        padding: 8px;
+        color: $basicColor2;
+        background-color: $emptyAvatarImageBgColor;
+      }
+
+      &__element {
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        height: 80px;
+        border-bottom: 1px solid $borderColor;
+
+        > div:first-of-type {
+          width: 140px;
+        }
+
+        > div:last-of-type {
+          margin: auto;
+        }
+      }
+
+      &__btnSbmt {
+        width: 200px;
+        margin: 12px auto;
+      }
+    }
+  }
+}

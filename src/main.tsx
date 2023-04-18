@@ -3,7 +3,16 @@
 import "./styles/main.scss";
 import { Component, StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import { WUPFormElement, WUPPasswordControl, WUPSelectControl, WUPSpinElement, WUPTextControl } from "web-ui-pack";
+import {
+  WUPFormElement,
+  WUPHelpers,
+  WUPNumberControl,
+  WUPPasswordControl,
+  WUPSelectControl,
+  WUPSpinElement,
+  WUPTextControl,
+  WUPCheckControl,
+} from "web-ui-pack";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import smoothscroll from "smoothscroll-polyfill";
 import { Provider } from "react-redux";
@@ -17,7 +26,16 @@ import { apiGetCurrentUser } from "./api/apiAccount";
 import "react-toastify/dist/ReactToastify.css";
 import httpService from "./helpers/httpHelper";
 
-!(WUPFormElement && WUPTextControl && WUPPasswordControl && WUPSpinElement && WUPSelectControl) && console.warn("err");
+!(
+  WUPFormElement &&
+  WUPTextControl &&
+  WUPNumberControl &&
+  WUPPasswordControl &&
+  WUPSpinElement &&
+  WUPSelectControl &&
+  WUPHelpers &&
+  WUPCheckControl
+) && console.warn("err");
 
 interface AppProps {
   nothing: boolean;
@@ -25,6 +43,8 @@ interface AppProps {
 
 interface AppState {
   isLogged: boolean;
+  isAdmin: boolean;
+  isPending: boolean;
   lang: string;
   locales: unknown;
 }
@@ -39,8 +59,10 @@ class AppContainer extends Component<AppProps, AppState> {
     super(props);
     this.state = {
       isLogged: AppContainer.isLogged,
+      isAdmin: AppContainer.isAdmin,
       lang: AppContainer.lang,
       locales: AppContainer.locales,
+      isPending: true,
     };
     // test class-dead-code
     const goExlcude = true;
@@ -77,7 +99,20 @@ class AppContainer extends Component<AppProps, AppState> {
       }
     });
 
-    await apiGetCurrentUser();
+    Store.subscribe(() => {
+      const { isAdmin } = AppContainer;
+      if (this.state.isAdmin !== isAdmin) {
+        this.setState({ isAdmin });
+      }
+    });
+
+    await apiGetCurrentUser(true)
+      .then(() => {
+        this.setState({ isPending: false });
+      })
+      .catch(() => {
+        this.setState({ isPending: false });
+      });
   }
 
   componentDidCatch = (error: Error) => {
@@ -85,7 +120,11 @@ class AppContainer extends Component<AppProps, AppState> {
   };
 
   static get isLogged() {
-    return Store.getState().isLogged;
+    return Store.getState()?.isLogged;
+  }
+
+  static get isAdmin() {
+    return Store.getState()?.isAdmin;
   }
 
   static get locales() {
@@ -96,7 +135,7 @@ class AppContainer extends Component<AppProps, AppState> {
   }
 
   static get lang() {
-    return Store.getState().lang;
+    return Store.getState()?.lang || (localStorage.getItem("lang") as string);
   }
 
   render() {
@@ -117,25 +156,13 @@ class AppContainer extends Component<AppProps, AppState> {
               pauseOnHover
               theme="light"
             />
-            <MainRouter isLogged={this.state.isLogged} />
+            {this.state.isPending ? (
+              <wup-spin />
+            ) : (
+              <MainRouter isLogged={this.state.isLogged} isAdmin={this.state.isAdmin} />
+            )}
           </Provider>
         </IntlProvider>
-        {/* <div className="test-block">
-          <h2 className={style.mainTitle}>{this.state.title}</h2>
-        </div>
-        <div className={["test-block", style.background].join(" ")}>
-          <h2>Test-block for assets-module (previous url-loader)</h2>
-          <img src={imgSmall} alt="smallImage" />
-        </div>
-        <div className={["test-block", style.svgBackground].join(" ")}>
-          <h2>Test-block for assets-module (svg-url-loader)</h2>
-          <img src={imgCamera} alt="small_SVG_Image" />
-        </div>
-
-        <wup-form class={style.form}>
-          <wup-text name="TextControl" />
-          <button type="submit">Submit</button>
-        </wup-form> */}
       </StrictMode>
     );
   }

@@ -1,0 +1,14 @@
+.inputNum {
+  width: 140px;
+  height: 40px;
+  background: none;
+  border: 2px solid $borderColor;
+  border-radius: 4px;
+  padding: 4px 10px;
+  /* stylelint-disable-next-line font-family-no-missing-generic-family-keyword */
+  font-family: "Audiowide";
+
+  &:hover {
+    border: 2px solid $tableBlankCheckboxColor;
+  }
+}

@@ -1,0 +1,194 @@
+.tableContainer {
+  $paddingInside: 4px; // inside active elements like button
+  $headerHeight: 52px;
+  $cellLeftPadding: 16px;
+  $cellTopPadding: 16px;
+  position: relative; // for clearSelection button
+  background: $tableBgColor;
+  border-radius: $borderRadius;
+  border: $borderWidth solid $borderColor;
+  box-sizing: border-box;
+
+  table {
+    font: $tableFontRow;
+    vertical-align: middle;
+    width: 100%;
+
+    > thead {
+      height: $headerHeight;
+      text-align: left;
+      color: $tableHeaderColor; // opacity workaround
+
+      th {
+        font: $tableFontHeader;
+        font-weight: 400;
+        font-size: 14px;
+        padding: 0 $cellLeftPadding;
+        cursor: pointer;
+
+        &[data-header]:hover {
+          background-color: #eff7fb;
+        }
+
+        .currentSort {
+          // @include iconAfter($icon-arrowdownward);
+
+          &::after {
+            font-size: 16px;
+            position: absolute;
+            color: $tableArrowSortColor;
+          }
+        }
+
+        .sortAsc {
+          // @include iconAfter($icon-arrowupward);
+        }
+      }
+    }
+
+    tbody > {
+      tr {
+        height: 60px;
+        transition: $bgColorAnim;
+        border-top: $borderWidth solid $borderColor;
+
+        > td {
+          padding: $cellTopPadding $cellLeftPadding;
+
+          &:has(span[data-check]) {
+            padding: 0;
+          }
+
+          // According to design
+          a {
+            color: black;
+            text-decoration: none;
+          }
+        }
+
+        &:hover {
+          background-color: $tableRowHoverColor;
+        }
+      }
+
+      .noItems {
+        text-align: center;
+
+        &:hover {
+          background-color: initial;
+        }
+
+        > td[colspan] {
+          height: calc(100vh - 400px);
+
+          span {
+            display: block;
+            margin-top: 16px;
+          }
+
+          h4 {
+            margin: 16px 0 5px;
+          }
+
+          p {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 300;
+          }
+
+          // Is it possible to move icon?
+          // @include iconBefore($icon-search);
+          content: "search";
+
+          &::before {
+            background-color: $tableNoResultsSearchBgColor;
+            color: $tableNoResultsSearchIconColor;
+            font-size: 50px;
+            border-radius: 50%;
+          }
+        }
+      }
+    }
+
+    // stylelint-disable no-descending-specificity
+    &.multiSelect {
+      th:first-child,
+      td:first-child {
+        cursor: pointer;
+        font-size: 24px;
+        color: $tableBlankCheckboxColor;
+        width: 0; // width: 0 disables auto-width for header and works as fit-content
+        padding: #{$cellLeftPadding - $paddingInside} #{$cellTopPadding - $paddingInside};
+
+        span {
+          display: flex;
+          border-radius: 50%;
+          padding: $paddingInside;
+          // @include iconBefore($icon-blankcheckbox);
+
+          &[data-check="true"] {
+            // @include iconBefore($icon-checkbox);
+
+            &::before {
+              color: $tableCheckboxColor;
+            }
+          }
+        }
+
+        &:hover {
+          span {
+            background: $tableMoreIconHoverBgColor;
+          }
+        }
+      }
+
+      span.checkMinus[data-check="false"] {
+        // @include iconBefore($icon-indeterminatecheckbox);
+
+        &::before {
+          color: $tableCheckboxColor;
+        }
+      }
+    }
+
+    &.editBtns {
+      td:last-child {
+        padding: #{$cellLeftPadding - $paddingInside} #{$cellTopPadding - $paddingInside};
+      }
+
+      .tableDropdown {
+        button {
+          padding: $paddingInside;
+          border-radius: 50%;
+
+          // @include iconAfter($icon-moreOption);
+          content: "...";
+          transition: $bgColorAnim;
+
+          &::after {
+            color: $tableMoreIconColor;
+            font-size: 24px;
+          }
+
+          &:hover {
+            background-color: $tableMoreIconHoverBgColor;
+          }
+        }
+
+        ul {
+          min-width: 131px;
+          bottom: unset;
+          right: 0;
+        }
+      }
+    }
+  }
+
+  .spinnerWrapper {
+    position: relative;
+
+    > .spinner {
+      top: 20vh;
+    }
+  }
+}

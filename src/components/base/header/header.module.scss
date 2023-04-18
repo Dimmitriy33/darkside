@@ -37,6 +37,28 @@
 
   .btnLang {
     margin-left: auto;
+  }
+
+  .btnCart {
+    position: relative;
+
+    span {
+      bottom: -8px;
+      right: -8px;
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background-color: $activeTabColor;
+      color: $basicColor2;
+      font-size: 10px;
+      line-height: 16px;
+      font-weight: 700;
+      border-radius: 4px;
+    }
+  }
+
+  .btnLang,
+  .btnCart {
     background: transparent;
     border: none;
     border: 2px solid $borderColor;

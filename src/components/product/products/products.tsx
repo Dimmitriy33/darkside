@@ -1,34 +1,51 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Header from "@/components/base/header/header";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { apiGetCategories, apiGetCreators, apiGetProducts } from "@/api/apiProduct";
 import { FormattedMessage } from "react-intl";
 import Slider from "rc-slider";
 import TextControl from "@/elements/TextControl";
-import { IProduct, ISearchModel } from "../productTypes";
+import BaseButton from "@/elements/buttonBase/buttonBase";
+import useTypedSelector from "@/redux/typedSelector";
+import { urlAdminCart, urlAdminProducts, urlAdminUser } from "@/mainRouterPathes";
+import { UserRoles } from "@/components/account/accountTypes";
+import Pagination, { PaginationDefault } from "@/elements/pagination/pagination";
+import { IPagination } from "@/elements/pagination/pagination.types";
+import { IProduct, ISearchProductModel } from "../productTypes";
 import styles from "./products.module.scss";
 import ProductCard from "../productCard/productCard";
 import "rc-slider/assets/index.css";
 
 export default function Products(): JSX.Element {
   const navigate = useNavigate();
+  const user = useTypedSelector((state) => state.currentUser);
+  const location = useLocation();
   const [products, setProducts] = useState<IProduct[] | null>(null);
   const [categories, setCategories] = useState<string[]>([]);
   const [creators, setCreators] = useState<string[]>([]);
-  const [searchModel, setSearchModel] = useState<ISearchModel>({});
+  const [searchModel, setSearchModel] = useState<ISearchProductModel>({});
+  const [pageModel, setPageModel] = useState<IPagination>(PaginationDefault);
   const [rangeMinMax, setRangeMinMax] = useState([0, 1000]);
   const [rangeVpMinMax, setRangeVpMinMax] = useState([0, 100]);
   let timeoutPrice: NodeJS.Timeout | null = null;
   let timeoutVp: NodeJS.Timeout | null = null;
+  const throttling = useRef(false);
 
-  const getProducts = useCallback(async (model: ISearchModel) => {
-    const res = await apiGetProducts(model);
-
-    if (res) {
-      setTimeout(() => {
-        setProducts(res);
-      }, 300);
+  // eslint-disable-next-line require-await
+  const getProducts = useCallback(async (model: ISearchProductModel, pageMl: IPagination) => {
+    if (throttling.current) {
+      return;
     }
+
+    throttling.current = true;
+    setTimeout(async () => {
+      throttling.current = false;
+      const res = await apiGetProducts(model, pageMl.size, (pageMl.currentNumber - 1) * pageMl.size);
+      if (res) {
+        setProducts(res?.items || []);
+        setPageModel({ ...pageMl, totalCount: res?.totalCount || 0 });
+      }
+    }, 300);
   }, []);
 
   const getCategories = useCallback(async () => {
@@ -47,9 +64,9 @@ export default function Products(): JSX.Element {
     }
   }, []);
 
-  const updateSearchModel = useCallback(async (model: ISearchModel) => {
+  const updateSearchModel = useCallback(async (model: ISearchProductModel) => {
     setSearchModel(model);
-    await getProducts(model);
+    await getProducts(model, pageModel);
   }, []);
 
   const updateTerm = (term?: string) => {
@@ -115,8 +132,13 @@ export default function Products(): JSX.Element {
   }
 
   useEffect(() => {
-    getProducts({});
-    getCategories();
+    getCategories().then(() => {
+      if (location.state && location.state.initCategory) {
+        updateCategory(location.state.initCategory);
+      } else {
+        getProducts({}, PaginationDefault);
+      }
+    });
     getCreators();
   }, []);
 
@@ -233,16 +255,32 @@ export default function Products(): JSX.Element {
               />
             </div>
           </div>
-          <div className={styles.products__filters__price} />
+          {user && user?.role === UserRoles.admin && (
+            <>
+              <div className={styles.products__filters__admin}>
+                <BaseButton intlText="AdminProducts" onClick={() => navigate(urlAdminProducts)} />
+              </div>
+              <div className={styles.products__filters__admin}>
+                <BaseButton intlText="AdminUsers" onClick={() => navigate(urlAdminUser)} />
+              </div>
+              <div className={styles.products__filters__admin}>
+                <BaseButton intlText="AdminCarts" onClick={() => navigate(urlAdminCart)} />
+              </div>
+            </>
+          )}
         </div>
         <div className={styles.products__main}>
           <TextControl
             intlLabel="Search"
             init={(el) => {
+              el.addEventListener("$change", (ev) => {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                const v = ev.currentTarget?.$value;
+                updateTerm(v);
+              });
               el.$options.validations = {
                 required: false,
-                max: 24,
-                min: 2,
               };
             }}
           />
@@ -256,9 +294,23 @@ export default function Products(): JSX.Element {
                   </h3>
                   <div className={styles.products__main__items}>
                     {products.map((product) => (
-                      <ProductCard product={product} />
+                      <ProductCard product={product} triggerUpdate={() => getProducts(searchModel, pageModel)} />
                     ))}
                   </div>
+
+                  <Pagination //
+                    onChanged={(pageM) => {
+                      setPageModel(pageM);
+                      setProducts([]);
+                      getProducts(searchModel, pageM).then(() => {
+                        window.scrollTo({
+                          top: 0,
+                          behavior: "smooth",
+                        });
+                      });
+                    }}
+                    pagination={pageModel}
+                  />
                 </>
               ) : (
                 <div>Empty result</div>

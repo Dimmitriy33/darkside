@@ -4,6 +4,22 @@
   width: 280px;
   height: 400px;
 
+  &__btn_amount {
+    justify-content: center;
+    display: block;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: $activeTabColor;
+    color: $basicColor2;
+    border: 2px solid $borderColor;
+    border-radius: 4px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+  }
+
   &__top {
     position: relative;
     border: 2px solid $borderColor;
@@ -23,29 +39,31 @@
       }
     }
 
-    &__btn_icons {
-      display: none;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      position: absolute;
-      bottom: 30px;
-      right: 20px;
-      background-color: transparent;
-      animation: move 0.2s linear;
+    &__btn {
+      &_icons {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        position: absolute;
+        bottom: 30px;
+        right: 20px;
+        background-color: transparent;
+        animation: move 0.2s linear;
 
-      button {
-        text-align: center;
-        background-color: $basicColor;
-        border: 1px solid $borderColor;
-        border-radius: 4px;
-        color: $basicColor2;
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
+        button {
+          text-align: center;
+          background-color: $basicColor;
+          border: 1px solid $borderColor;
+          border-radius: 4px;
+          color: $basicColor2;
+          width: 40px;
+          height: 40px;
+          cursor: pointer;
 
-        &:hover {
-          background-color: $productCreatorColor;
+          &:hover {
+            background-color: $productCreatorColor;
+          }
         }
       }
     }

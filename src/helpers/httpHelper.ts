@@ -38,9 +38,9 @@ function errorHandler<T>(fn: () => Promise<T>) {
         return null as T;
       }
 
-      if (res.data?.message) {
+      if (res.data?.errorMessage || res.data?.message) {
         // expected message from backend
-        msg = res.data.message;
+        msg = res.data.errorMessage || res.data?.message;
       } else {
         msg = err.message;
         if (res.config.url) {

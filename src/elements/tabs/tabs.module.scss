@@ -1,0 +1,40 @@
+.tabs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 24px;
+
+  ul {
+    list-style: none;
+  }
+
+  .tab {
+    min-width: 168px;
+    min-height: 48px;
+    padding: 9px 14px;
+    border-radius: 0;
+    border: none;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: transparent;
+    color: $inactiveTabColor;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+      box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+
+    &:focus {
+      outline: none;
+    }
+
+    &.active {
+      color: $activeTabColor;
+      box-shadow: 0 4px 0px -2px $activeTabColor;
+    }
+  }
+}

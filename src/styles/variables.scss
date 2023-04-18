@@ -34,3 +34,41 @@ $modalOverlayBackColor: var(--modalOverlayBackColor, black);
 $modalBtnCloseColor: var(--modalBtnCloseColor, #8f8e8e);
 $modalBtnCloseHoverColor: var(--modalBtnCloseHoverColor, black);
 $modalBgColor: var(--modalBgColor, white);
+
+// table
+$tableHeaderColor: var(--tableTHeadColor, #232323b3);
+$tableBgColor: white;
+$tableFontHeader: inherit;
+$tableFontRow: inherit;
+$tableArrowSortColor: #3896cb;
+$tableRowHoverColor: #f2f2f2;
+$tableNoResultsSearchBgColor: #f2f2f2;
+$tableNoResultsSearchIconColor: #7d7d7d;
+$tableBlankCheckboxColor: #7d7d7d;
+$tableClearSelectionColor: #7d7d7d;
+$tableCheckboxColor: #3896cb;
+$tableMoreIconColor: #bebebe;
+$tableMoreIconHoverBgColor: #e1e1e1;
+
+// table footer
+$tableFooterColor: var(--tableFooterColor, #4f4f4f);
+
+$baseAnimDuration: 150ms;
+$bgColorAnim: background-color $baseAnimDuration cubic-bezier(0, 0, 0.2, 1) 0ms;
+
+// buttons
+$btnBorderWidth: 1px;
+$btnBorder: $btnBorderWidth #e0e0e0 solid;
+$primaryBtnColor: var(--primaryBtnColor, #3896cb);
+$primaryBtnColorHover: var(--primaryBtnColorHover, #2e82b2);
+$primaryBtnTextColor: var(--primaryBtnColorHover, white);
+
+$secondaryBtnColor: var(--secondaryBtnColor, white);
+$secondaryBtnColorHover: var(--secondaryBtnColorHover, #dfeef7);
+$secondaryBtnTextColor: var(--secondaryBtnTextColor, #3896cb);
+
+$textBtnColorHover: var(--textBtnColorHover, #eff7fb);
+
+// tabs
+$activeTabColor: var(--activeTabColor, #ff4f4f);
+$inactiveTabColor: var(--inactiveTabColor, #919191);

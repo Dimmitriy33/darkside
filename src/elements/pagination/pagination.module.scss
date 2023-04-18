@@ -1,0 +1,45 @@
+.pagination {
+  display: flex;
+  padding: 9px 10px;
+  min-height: 60px;
+  align-items: center;
+  justify-content: flex-end;
+  border-top: $borderWidth solid $borderColor;
+  color: $tableFooterColor;
+
+  span:nth-of-type(1) {
+    margin-right: 8px;
+  }
+
+  span:last-of-type {
+    margin: 0 20px 0 31px;
+  }
+
+  > button {
+    border: 0;
+    padding: 0;
+    box-shadow: none;
+    border-radius: 50%;
+    justify-content: center;
+    min-width: 36px;
+    font-size: 24px;
+
+    margin: 0 2px;
+
+    &[disabled] {
+      opacity: 0.5;
+    }
+
+    &::after {
+      color: $tableFooterColor;
+    }
+  }
+
+  .prevPage:before {
+    content: "<";
+  }
+
+  .nextPage:before {
+    content: ">";
+  }
+}

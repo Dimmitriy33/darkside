@@ -61,6 +61,7 @@ module.exports = {
     "no-plusplus": "off",
     "class-methods-use-this": "off",
     "import/no-extraneous-dependencies": "off",
+    "react/require-default-props": "off", // Since we do not use prop-types
     "no-param-reassign": 0,
     "max-len": [
       "warn",
