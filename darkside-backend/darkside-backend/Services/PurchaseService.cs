@@ -76,6 +76,8 @@ namespace darkside_backend.Services
 
             }
 
+            await _userRepo.ChangeBalance(user, -totalPrice);
+
             return new PurchaseCreateResponse
             {
                 Items = products,
