@@ -215,6 +215,7 @@ export default function UpdateProduct(): JSX.Element {
               el.$options.postfix = " %";
               el.$options.validations = {
                 min: 1,
+                max: 99,
               };
             }}
           />

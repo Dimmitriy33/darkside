@@ -73,6 +73,8 @@ function Reducer(state = initialState, action: Action<number> = initialAction): 
         isAdmin: false,
         currentUser: null,
       });
+
+      LolcalStorageRmCart();
       localStorage.removeItem("token");
 
       return result;

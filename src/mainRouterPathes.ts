@@ -1,6 +1,7 @@
 export const urlHome = "/";
 export const urlNone = "*";
 export const urlLogin = "/login";
+export const urlAboutUs = "/info";
 export const urlResetPassword = "/forgotpassword";
 export const urlUser = "/user";
 export const urlProducts = "/products";

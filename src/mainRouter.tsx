@@ -1,6 +1,7 @@
 import { Routes, BrowserRouter, Route } from "react-router-dom";
 import LoginForm from "./components/account/login/login";
 import {
+  urlAboutUs,
   urlAdminCart,
   urlAdminProducts,
   urlAdminUser,
@@ -25,6 +26,7 @@ import CartsAll from "./components/cart/adminCartsAll/adminCartsAll";
 import Cart from "./components/cart/cartMain/cartMain";
 import AdminUsers from "./components/account/adminUsers/adminUsers";
 import AdminProducts from "./components/product/adminProducts/adminProducts";
+import AboutUs from "./components/base/aboutUs/anoutUs";
 
 export default function MainRouter({ isLogged, isAdmin }: { isLogged: boolean; isAdmin: boolean }) {
   return (
@@ -33,6 +35,7 @@ export default function MainRouter({ isLogged, isAdmin }: { isLogged: boolean; i
         {/* <Route path={urlResetPassword} component={ResetPassword} /> */}
         <Route path={urlLogin} Component={LoginForm} />
         <Route path={urlHome} Component={HomePage} />
+        <Route path={urlAboutUs} Component={AboutUs} />
         <Route path={urlProducts} Component={Products} />
         <Route path={urlProduct} Component={Product} />
         <Route element={<ProtectedRoute isAllowed={isLogged} />}>

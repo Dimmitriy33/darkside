@@ -1,10 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import useTypedSelector from "@/redux/typedSelector";
-import { urlCart, urlHome, urlLogin, urlUser } from "@/mainRouterPathes";
+import { urlAboutUs, urlCart, urlHome, urlLogin, urlProducts, urlUser } from "@/mainRouterPathes";
 import logo from "images/logo-no-background.png";
 import { useCallback, useState } from "react";
 import { apiLogout } from "@/api/apiAccount";
-import { useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import Dropdown from "@/elements/dropdown/dropdown";
 import BaseButton from "@/elements/buttonBase/buttonBase";
 import Store, { Types } from "@/redux";
@@ -40,6 +40,18 @@ export default function Header(): JSX.Element {
         <img className={styles.logo} src={logo} alt="Logo" />
       </Link>
 
+      <div className={styles.menuNav}>
+        <div>
+          <Link to={urlProducts}>
+            <FormattedMessage id="Products" />
+          </Link>
+        </div>
+        <div>
+          <Link to={urlAboutUs}>
+            <FormattedMessage id="AboutUs" />
+          </Link>
+        </div>
+      </div>
       <button
         className={styles.btnLang}
         type="button"

@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import BaseButton from "@/elements/buttonBase/buttonBase";
 import imgBg1 from "images/abour-us-home.jpg";
+import { urlAboutUs } from "@/mainRouterPathes";
 import styles from "./aboutUsHome.module.scss";
 
 export default function AboutUsHome(): JSX.Element {
@@ -20,7 +21,7 @@ export default function AboutUsHome(): JSX.Element {
         <p>
           <FormattedMessage id="AboutUsSubP" />
         </p>
-        <BaseButton onClick={() => alert("ok")} intlText="AboutUs" type="button" />
+        <BaseButton onClick={() => navigate(urlAboutUs)} intlText="AboutUs" type="button" />
       </div>
     </div>
   );
